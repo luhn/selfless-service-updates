@@ -5,6 +5,24 @@ Description: >
 
   Automatically apply ElastiCache self-service updates.
 
+Metadata:
+  AWS::ServerlessRepo::Application:
+    Name: selfless-service-updates
+    Description: Automatically apply ElastiCache self-service updates.
+    Author: Theron Luhn
+    SpdxLicenseId: MIT
+    LicenseUrl: LICENSE
+    ReadmeUrl: README.md
+    Labels:
+      - elasticache
+      - redis
+      - memcache
+      - maintenance
+      - update
+    HomePageUrl: https://github.com/luhn/selfless-service-updates
+    SemanticVersion: 0.1.0
+    SourceCodeUrl: https://github.com/luhn/selfless-service-updates
+
 Resources:
   MainFunction:
     Type: AWS::Serverless::Function
