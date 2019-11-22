@@ -3,7 +3,7 @@ Transform: AWS::Serverless-2016-10-31
 Description: >
   selfless-service-updates
 
-  Sample SAM Template for selfless-service-updates
+  Automatically apply ElastiCache self-service updates.
 
 Resources:
   MainFunction:
