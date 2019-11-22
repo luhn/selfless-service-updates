@@ -10,6 +10,53 @@ Resources:
     Type: AWS::Serverless::Function
     Properties:
       CodeUri: app/
-      Handler: app.lambda_handler
+      Handler: app.handler
+      MemorySize: 128
       Timeout: 120
       Runtime: python3.8
+      Role: !GetAtt ExecutionRole.Arn
+
+  ExecutionRole:
+    Type: AWS::IAM::Role
+    Properties:
+      AssumeRolePolicyDocument:
+        Version: "2012-10-17"
+        Statement:
+        - Effect: Allow
+          Principal:
+            Service:
+            - lambda.amazonaws.com
+          Action:
+          - sts:AssumeRole
+      ManagedPolicyArns:
+        - arn:aws:iam::aws:policy/service-role/AWSLambdaBasicExecutionRole
+      Policies:
+      - PolicyName: elasticache
+        PolicyDocument:
+          Version: "2012-10-17"
+          Statement:
+          - Effect: Allow
+            Action:
+            - elasticache:DescribeServiceUpdates
+            - elasticache:DescribeUpdateActions
+            - elasticache:BatchApplyUpdateAction
+            Resource: "*"
+
+  Cron:
+    Type: AWS::Events::Rule
+    Properties:
+      Description: "Trigger self-service updates."
+      ScheduleExpression: "cron(0 10 ? * MON *)"
+      State: ENABLED
+      Targets:
+        - Arn: !GetAtt MainFunction.Arn
+          Id: Function
+
+  CronPermissions:
+    Type: AWS::Lambda::Permission
+    Properties:
+      FunctionName:
+        Ref: MainFunction
+      Action: "lambda:InvokeFunction"
+      Principal: "events.amazonaws.com"
+      SourceArn: !GetAtt Cron.Arn

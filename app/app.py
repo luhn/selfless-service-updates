@@ -1,7 +1,7 @@
 import boto3
 
 
-client = boto3.Client('elasticache')
+client = boto3.client('elasticache')
 
 
 def handler(event, context):
@@ -9,7 +9,10 @@ def handler(event, context):
         ServiceUpdateStatus=['available'],
     )
     for info in response['ServiceUpdates']:
-        apply_updates(info['ServiceUpdateName'])
+        name = info['ServiceUpdateName']
+        print()
+        print(f'Service update available: { name }')
+        apply_updates(name)
 
 
 def apply_updates(name):
@@ -20,6 +23,10 @@ def apply_updates(name):
     group_ids = [
         item['ReplicationGroupId'] for item in response['UpdateActions']
     ]
+    if not group_ids:
+        print('All replication groups are up-to-date.')
+        return
+    print(f'Applying to replication groups: { ", ".join(group_ids) }')
     client.batch_apply_update_action(
         ServiceUpdateName=name,
         ReplicationGroupIds=group_ids,
