@@ -23,6 +23,14 @@ Metadata:
     SemanticVersion: 0.1.0
     SourceCodeUrl: https://github.com/luhn/selfless-service-updates
 
+Parameters:
+  CronExpression:
+    Type: String
+    Default: "0 10 ? * MON *"
+    Description: >
+      Enter a cron expression for when the run the function.  Default is
+      "0 10 ? * MON *", meaning Monday at 10:00 UTC.
+
 Resources:
   MainFunction:
     Type: AWS::Serverless::Function
@@ -64,7 +72,7 @@ Resources:
     Type: AWS::Events::Rule
     Properties:
       Description: "Trigger self-service updates."
-      ScheduleExpression: "cron(0 10 ? * MON *)"
+      ScheduleExpression: !Sub "cron(${CronExpression})"
       State: ENABLED
       Targets:
         - Arn: !GetAtt MainFunction.Arn
