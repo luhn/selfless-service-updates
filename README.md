@@ -22,18 +22,5 @@ Settings" to the desired
 You can also build and deploy yourself using SAM.
 
 ```sh
-sam package --output-template-file packaged.yaml \
-	--s3-bucket rezku-staging-lambda
-sam deploy --template-file packaged.yaml \
-	--stack-name selfless-service-updates \
-	--capabilities CAPABILITY_IAM
-```
-
-To choose the cron expression when deploying:
-
-```sh
-sam deploy --template-file packaged.yaml \
-	--stack-name selfless-service-updates \
-	--capabilities CAPABILITY_IAM \
-	--parameter-overrides CronExpression="0 10 ? * TUE *"
+sam deploy --guided
 ```
