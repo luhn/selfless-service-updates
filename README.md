@@ -5,11 +5,11 @@ Amazon ElastiCache recently added
 This revolutionary new feature allows you manually manage updates on your
 managed cache cluster.
 
-Now, as much as I enjoyed waking up at 4am to hit "Apply Update", everybody
-knows:  If you love something, automate it.  This simple Lambda function checks
-for any outstanding self-service updates and applies them.  A CloudWatch Events
-scheduled expression will run this Lambda function at 10:00 UTC every Monday,
-but can be set to your preferred time.
+Now, as much as I enjoy the job security of pressing "Apply Update" at four in
+the morning, I enjoy getting a good night's sleep much better.  This simple
+Lambda function checks for any outstanding self-service updates and applies
+them.  A CloudWatch Events scheduled expression will run this Lambda function
+at 10:00 UTC every Monday, but can be set to your preferred time.
 
 ## Deploying
 
