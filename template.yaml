@@ -20,7 +20,7 @@ Metadata:
       - maintenance
       - update
     HomePageUrl: https://github.com/luhn/selfless-service-updates
-    SemanticVersion: 0.1.0
+    SemanticVersion: 0.1.1
     SourceCodeUrl: https://github.com/luhn/selfless-service-updates
 
 Parameters:
