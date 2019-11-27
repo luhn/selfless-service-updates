@@ -22,12 +22,19 @@ def apply_updates(name):
     )
     group_ids = [
         item['ReplicationGroupId'] for item in response['UpdateActions']
+        if 'ReplicationGroupId' in item
     ]
-    if not group_ids:
-        print('All replication groups are up-to-date.')
+    cluster_ids = [
+        item['CacheClusterId'] for item in response['UpdateActions']
+        if 'CacheClusterId' in item
+    ]
+    if not group_ids and not cluster_ids:
+        print('All clusters and replication groups are up-to-date.')
         return
     print(f'Applying to replication groups: { ", ".join(group_ids) }')
+    print(f'Applying to clusters: { ", ".join(cluster_ids) }')
     client.batch_apply_update_action(
         ServiceUpdateName=name,
         ReplicationGroupIds=group_ids,
+        CacheClusterIds=cluster_ids,
     )
